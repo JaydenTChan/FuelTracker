@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:focusable="false"
+    android:clickable="false"
+    android:background="#5e5e5e">
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="date"
+        android:ems="10"
+        android:id="@+id/date"
+        android:layout_marginTop="39dp"
+        android:hint="Date"
+        android:textColor="#FFFFFFFF"
+        android:textColorHint="#d0d0d0"
+        android:layout_below="@+id/textView"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/Station"
+        android:layout_below="@+id/date"
+        android:layout_alignEnd="@+id/date"
+        android:layout_alignStart="@+id/date"
+        android:hint="Gas Station"
+        android:textColor="#FFFFFFFF"
+        android:textColorHint="#d0d0d0" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/fuelGrade"
+        android:layout_below="@+id/Station"
+        android:layout_alignEnd="@+id/Station"
+        android:layout_alignStart="@+id/Station"
+        android:hint="Fuel Grade"
+        android:textColor="#FFFFFFFF"
+        android:textColorHint="#d0d0d0" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="numberDecimal"
+        android:ems="10"
+        android:id="@+id/fuelAmount"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:hint="Fuel Amount"
+        android:layout_alignEnd="@+id/date"
+        android:layout_alignStart="@+id/date"
+        android:layout_below="@+id/fuelGrade"
+        android:textColor="#FFFFFFFF"
+        android:textColorHint="#d0d0d0" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="numberDecimal"
+        android:ems="10"
+        android:id="@+id/fuelUnitPrice"
+        android:layout_below="@+id/fuelAmount"
+        android:layout_centerHorizontal="true"
+        android:hint="Fuel Unit Price"
+        android:layout_alignEnd="@+id/date"
+        android:layout_alignStart="@+id/date"
+        android:textColor="#FFFFFFFF"
+        android:textColorHint="#d0d0d0" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="numberDecimal"
+        android:ems="10"
+        android:id="@+id/odometer"
+        android:layout_below="@+id/fuelUnitPrice"
+        android:layout_alignStart="@+id/date"
+        android:hint="Odometer"
+        android:layout_alignEnd="@+id/date"
+        android:textColor="#FFFFFFFF"
+        android:textColorHint="#d0d0d0" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Please Enter Values"
+        android:id="@+id/textView"
+        android:textColor="#FFFFFFFF"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="57dp" />
+
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Save"
+        android:id="@+id/buttonSave"
+        android:layout_below="@+id/odometer"
+        android:layout_alignParentEnd="true" />
+
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Cancel"
+        android:id="@+id/buttonCancel"
+        android:layout_alignTop="@+id/buttonSave"
+        android:layout_toStartOf="@+id/buttonSave" />
+
+</RelativeLayout>
