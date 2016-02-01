@@ -4,10 +4,10 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -17,24 +17,29 @@ import java.util.Date;
  * Created by Jayden on 2016-01-30.
  */
 public class FuelTrackPopUp extends Activity{
-
-    private Button saveButton;
-    private Button cancelButton;
-
+    //Initialize
     private EditText date;
     private EditText station;
     private EditText fuelGrade;
     private EditText fuelAmount;
     private EditText fuelUnitCost;
     private EditText odometer;
+    private Activity activity = this;
+
+    //Universal date format
+    private SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+
+    private Boolean isNew;
+    private int index;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fuelpopup);
 
-        saveButton = (Button) findViewById(R.id.buttonSave);
-        cancelButton = (Button) findViewById(R.id.buttonCancel);
+        // === Construction of Buttons/EditText/Other view elements.
+        Button saveButton = (Button) findViewById(R.id.buttonSave);
+        Button cancelButton = (Button) findViewById(R.id.buttonCancel);
 
         date = (EditText) findViewById(R.id.date);
         station = (EditText) findViewById(R.id.Station);
@@ -43,6 +48,12 @@ public class FuelTrackPopUp extends Activity{
         fuelUnitCost = (EditText) findViewById(R.id.fuelUnitPrice);
         odometer = (EditText) findViewById(R.id.odometer);
 
+        // === These are decimal filters to limit the user in how they enter in digits
+        fuelUnitCost.addTextChangedListener(new DecimalFilter1Digit(fuelUnitCost, activity));
+        fuelAmount.addTextChangedListener(new DecimalFilter3Digit(fuelAmount, activity));
+        odometer.addTextChangedListener(new DecimalFilter1Digit(odometer, activity));
+
+        // === Initialize Display Metrics
         DisplayMetrics dm = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(dm);
 
@@ -51,14 +62,35 @@ public class FuelTrackPopUp extends Activity{
 
         getWindow().setLayout((int) (width * 0.6), (int) (height * 0.5));
 
+        Intent startingIntent = getIntent();
+
+        // === Get Message from Main Activity
+        isNew = startingIntent.getExtras().getBoolean("new");
+        if (isNew == Boolean.FALSE) {
+
+            FuelLogEntry editThis = (FuelLogEntry)startingIntent.getExtras().getSerializable("edit");
+            // Get FuelLogEntry to be editted
+
+            date.setText(df.format(editThis.getDate()));
+
+            station.setText(editThis.getStation());
+            fuelGrade.setText(editThis.getFuelGrade());
+
+            fuelAmount.setText(Float.toString(editThis.getFuelAmount()));
+            fuelUnitCost.setText(Float.toString(editThis.getUnitCost()));
+            odometer.setText(Float.toString(editThis.getOdometer()));
+
+            index = startingIntent.getExtras().getInt("index");
+        }
+
         saveButton.setOnClickListener(new View.OnClickListener() {
+            //Listens to save button actions
 
             public void onClick(View v) {
-                //Save the values
-
-                SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
+                //Save the values when save is clicked
 
                 try {
+                    //Try to parse all the data properly
                     Date a = df.parse(date.getText().toString());
 
                     String b = station.getText().toString();
@@ -67,13 +99,21 @@ public class FuelTrackPopUp extends Activity{
                     float e = Float.parseFloat(fuelUnitCost.getText().toString());
                     float f = Float.parseFloat(odometer.getText().toString());
 
-                    FuelLogEntry entry = new FuelLogEntry(a, b, c, d, e, f);
+                    FuelLogEntry entry = new FuelLogEntry(a, b, c, f, d, e);
                     Intent intent = new Intent();
                     intent.putExtra("entry", entry);
+
+
+                    if(isNew == Boolean.FALSE){
+                        //Return the index number if it is an edit
+                        intent.putExtra("index", index);
+                    }
+
                     setResult(RESULT_OK, intent);
                     finish();
                 } catch (java.text.ParseException e) {
-                    //Error parsing
+                    //Error parsing date
+                    Toast.makeText(activity, "The date is not in the correct format.", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -89,4 +129,5 @@ public class FuelTrackPopUp extends Activity{
         });
 
     }
+
 }

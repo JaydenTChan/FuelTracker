@@ -28,13 +28,20 @@ public class FuelLogList {
         return logEntries.get(index);
     }
 
-    public void editLog(FuelLogEntry entry){
-
+    public void editLog(int index, FuelLogEntry entry){
+        //Replaces an old entry with editted version
+        logEntries.set(index, entry);
     }
 
-    public void getTotal(){
+    public float getTotal(){
         //Gets the total cost of all the objects in the array.
+        float runningTotal = 0;
 
+        for (int i = 0; i < logEntries.size() ; i++){
+            runningTotal += logEntries.get(i).getFuelCost();
+        }
+
+        return runningTotal;
     }
 
 }

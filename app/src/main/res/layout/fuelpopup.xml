@@ -12,12 +12,14 @@
         android:ems="10"
         android:id="@+id/date"
         android:layout_marginTop="39dp"
-        android:hint="Date"
+        android:hint="Date (yyyy-mm-dd)"
         android:textColor="#FFFFFFFF"
         android:textColorHint="#d0d0d0"
         android:layout_below="@+id/textView"
         android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignParentEnd="true"
+        android:autoText="false"
+        android:hyphenationFrequency="normal" />
 
     <EditText
         android:layout_width="wrap_content"
@@ -54,7 +56,8 @@
         android:layout_alignStart="@+id/date"
         android:layout_below="@+id/fuelGrade"
         android:textColor="#FFFFFFFF"
-        android:textColorHint="#d0d0d0" />
+        android:textColorHint="#d0d0d0"
+        />
 
     <EditText
         android:layout_width="wrap_content"
@@ -68,7 +71,8 @@
         android:layout_alignEnd="@+id/date"
         android:layout_alignStart="@+id/date"
         android:textColor="#FFFFFFFF"
-        android:textColorHint="#d0d0d0" />
+        android:textColorHint="#d0d0d0"
+        />
 
     <EditText
         android:layout_width="wrap_content"

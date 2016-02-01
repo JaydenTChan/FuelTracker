@@ -13,6 +13,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -23,6 +24,7 @@ public class MainActivity extends AppCompatActivity {
     private FuelLogList entries = new FuelLogList();
     private ArrayAdapter<FuelLogEntry> adapter;
     private int indexOf;
+    private TextView total;
 
 
     @Override
@@ -32,11 +34,14 @@ public class MainActivity extends AppCompatActivity {
 
         Button newButton = (Button) findViewById(R.id.buttonNew);
         logView = (ListView) findViewById(R.id.listView);
+        total = (TextView) findViewById(R.id.textView2);
+        setTotal();
 
         newButton.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View v) {
                 Intent pop = new Intent(MainActivity.this, FuelTrackPopUp.class);
+                pop.putExtra("new", Boolean.TRUE);//Tell the window this is the result of the NEW button
 
                 startActivityForResult(pop, 1);
 
@@ -58,6 +63,17 @@ public class MainActivity extends AppCompatActivity {
                 adapter.notifyDataSetChanged();
             }
         }
+
+        if (requestCode == 2){
+            if(resultCode == RESULT_OK){
+                FuelLogEntry i;
+                i = (FuelLogEntry)data.getSerializableExtra("entry");
+                entries.editLog(data.getExtras().getInt("index"), i);
+                adapter.notifyDataSetChanged();
+            }
+        }
+
+        setTotal();
     }
 
     @Override
@@ -66,13 +82,23 @@ public class MainActivity extends AppCompatActivity {
         super.onStart();
 
         FuelLogEntry entry = new FuelLogEntry("Esso", "Normal", 10.02f, 100.500f, 1.20f);
+        FuelLogEntry entry1 = new FuelLogEntry("Esso", "Normal", 10.02f, 100.500f, 1.20f);
+        FuelLogEntry entry2 = new FuelLogEntry("Esso", "Normal", 10.02f, 100.500f, 1.20f);
+        FuelLogEntry entry3 = new FuelLogEntry("Esso", "Normal", 10.02f, 100.500f, 1.20f);
+        FuelLogEntry entry4 = new FuelLogEntry("Esso", "Normal", 10.02f, 100.500f, 1.20f);
+        entries.addLog(entry1);
+        entries.addLog(entry2);
+        entries.addLog(entry3);
+        entries.addLog(entry4);
         entries.addLog(entry);
+
+        setTotal();
 
         adapter = new ArrayAdapter<>(this, R.layout.list_item, entries.getList());
         logView.setAdapter(adapter);
 
 
-        // Contextual Action Mode
+        // Contextual Action Mode (Sourced from Youtube link 1 [See Source/Resources.txt])
         logView.setChoiceMode(AbsListView.CHOICE_MODE_MULTIPLE_MODAL);
         logView.setMultiChoiceModeListener(new AbsListView.MultiChoiceModeListener() {
             @Override
@@ -103,11 +129,23 @@ public class MainActivity extends AppCompatActivity {
                 if (item.getItemId()==R.id.id_delete){
                     entries.deleteLog(entries.getLog(indexOf));
                     adapter.notifyDataSetChanged();
+                    setTotal();
                     mode.finish();
                 }
 
                 if (item.getItemId()==R.id.id_edit){
+                    //Open the pop up when editing
+                    Intent pop = new Intent(MainActivity.this, FuelTrackPopUp.class);
+                    pop.putExtra("new", Boolean.FALSE);
+                    pop.putExtra("edit", entries.getLog(indexOf));
+                    pop.putExtra("index", indexOf);
 
+                    startActivityForResult(pop, 2);
+
+                    setResult(RESULT_OK);
+
+                    setTotal();
+                    mode.finish();
                 }
 
                 return false;
@@ -121,4 +159,9 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    private void setTotal (){
+        float totalCost = entries.getTotal();
+        String returnString = "Total Fuel Cost: $" + String.format("%1$.2f", totalCost);
+        total.setText(returnString);
+    }
 }

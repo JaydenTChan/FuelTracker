@@ -1,6 +1,7 @@
 package com.example.jayden.jayden1_fueltrack;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -21,6 +22,7 @@ public class FuelLogEntry implements Serializable {
     private Float odometer;
     private Float fuelAmount;
     private Float unitCost;
+    private Float fuelCost;
 
     public FuelLogEntry(Date date, String station, String fuelGrade, Float odometer, Float fuelAmount, Float unitCost) {
         // Constructor with specified date
@@ -30,6 +32,7 @@ public class FuelLogEntry implements Serializable {
         this.odometer = odometer;
         this.fuelAmount = fuelAmount;
         this.unitCost = unitCost;
+        this.fuelCost = unitCost * fuelAmount;
     }
 
     public FuelLogEntry(String station, String fuelGrade, Float odometer, Float fuelAmount, Float unitCost) {
@@ -40,6 +43,7 @@ public class FuelLogEntry implements Serializable {
         this.odometer = odometer;
         this.fuelAmount = fuelAmount;
         this.unitCost = unitCost;
+        this.fuelCost = unitCost * fuelAmount;
     }
 
     public FuelLogEntry() {
@@ -56,7 +60,18 @@ public class FuelLogEntry implements Serializable {
     // === Override for string transfer
     @Override
     public String toString(){
-        return date.toString() + " | " + station;
+        String dateString = new SimpleDateFormat("yyyy-MM-dd").format(date);
+
+        String returnString =
+                dateString + " | " + station +
+                "\n Fuel Grade:         \t\t\t" +       fuelGrade +
+                "\n Fuel Amount:        \t\t\t" +       String.format("%1$.3f", fuelAmount) + "L" +
+                "\n Fuel Unit Price:    \t\t\t" +       "$" + String.format("%1$.1f", unitCost) + "/L" +
+                "\n Fuel Total Cost:    \t\t\t" +       "$" + String.format("%1$.2f",fuelCost) +
+                "\n Odometer Reading:   \t\t" +         String.format("%1$.1f",odometer) + "km" +
+                "";
+
+        return returnString;
     }
 
     // === Getters and Setters
@@ -106,5 +121,13 @@ public class FuelLogEntry implements Serializable {
 
     public void setUnitCost(Float unitCost) {
         this.unitCost = unitCost;
+    }
+
+    public Float getFuelCost() {
+        return fuelCost;
+    }
+
+    public void setFuelCost(Float fuelCost) {
+        this.fuelCost = fuelCost;
     }
 }
