@@ -9,7 +9,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -49,9 +48,9 @@ public class FuelTrackPopUp extends Activity{
         odometer = (EditText) findViewById(R.id.odometer);
 
         // === These are decimal filters to limit the user in how they enter in digits
-        fuelUnitCost.addTextChangedListener(new DecimalFilter1Digit(fuelUnitCost, activity));
-        fuelAmount.addTextChangedListener(new DecimalFilter3Digit(fuelAmount, activity));
-        odometer.addTextChangedListener(new DecimalFilter1Digit(odometer, activity));
+        fuelUnitCost.addTextChangedListener(new DecimalFilter(fuelUnitCost, activity,1));
+        fuelAmount.addTextChangedListener(new DecimalFilter(fuelAmount, activity,3));
+        odometer.addTextChangedListener(new DecimalFilter(odometer, activity,1));
 
         // === Initialize Display Metrics
         DisplayMetrics dm = new DisplayMetrics();
@@ -60,7 +59,7 @@ public class FuelTrackPopUp extends Activity{
         int width = dm.widthPixels;
         int height = dm.heightPixels;
 
-        getWindow().setLayout((int) (width * 0.6), (int) (height * 0.5));
+        getWindow().setLayout((int) (width * 0.8), (int) (height * 0.8));
 
         Intent startingIntent = getIntent();
 

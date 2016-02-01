@@ -1,0 +1,19 @@
+README for jayden1-FuelTrack
+
+This application is designed to help manage the amount of gas you use by recording the following:
+- Date of Fill
+- Gas Station purchased from
+- Fuel Quality/Grade
+- Fuel Unit Price
+- Fuel Cost
+- Fuel Amount
+- Odometer reading
+
+This application also sums up all the fuel costs and displays it neatly on the bottom of the main
+application window.
+
+Any sourced methods/classes will be under the /app/src/main/java/Source/Resources.txt document
+
+The unlisted youtube link to the demo video is located here:
+https://www.youtube.com/watch?v=Vsji-yg4g8c&feature=youtu.be
+

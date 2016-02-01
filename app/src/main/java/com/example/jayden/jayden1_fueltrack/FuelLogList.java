@@ -5,12 +5,17 @@ import java.util.ArrayList;
 /**
  * Created by Jayden on 2016-01-29.
  */
-public class FuelLogList {
+public class FuelLogList{
 
-    private ArrayList<FuelLogEntry> logEntries = new ArrayList<FuelLogEntry>();
+    // === ArrayList
+    private ArrayList<FuelLogEntry> logEntries = new ArrayList<>();
 
     public ArrayList<FuelLogEntry> getList(){
         return logEntries;
+    }
+
+    public void setList(ArrayList<FuelLogEntry> entries){
+        logEntries = entries;
     }
 
     public void addLog(FuelLogEntry entry){

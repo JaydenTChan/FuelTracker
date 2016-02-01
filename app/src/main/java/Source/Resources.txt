@@ -1,9 +1,11 @@
 Sources of help:
 
-//Disclaimer:
+// Disclaimer:
 I pasted all the websites I've used to help me create the app.
 Of course some of the functions or snippets are directly from these sites.
 I own no part of them and use them under the impression that they are free use.
+
+I also got many of the methods and classes from altering lonelyTwitter.
 
 // Websites
 http://developer.android.com/guide/topics/ui/menus.html#context-menu
@@ -14,6 +16,9 @@ http://stackoverflow.com/questions/3997748/how-can-i-create-a-keystore
 http://stackoverflow.com/questions/14292398/how-to-pass-data-from-2nd-activity-to-1st-activity-when-pressed-back-android
 http://stackoverflow.com/questions/3190769/java-string-to-date-without-time
 http://stackoverflow.com/questions/153724/how-to-round-a-number-to-n-decimal-places-in-java
+http://stackoverflow.com/questions/18146614/how-to-send-string-from-one-activity-to-another
+http://stackoverflow.com/questions/9754170/listview-selection-remains-persistent-after-exiting-choice-mode
+http://stackoverflow.com/questions/17439682/android-file-i-o-openfileinput-undefined
 http://www.dotnetperls.com/format-java
 
 // The Decimal filter class is sourced from here:
@@ -23,6 +28,6 @@ http://v4all123.blogspot.ca/2013/05/set-limit-for-fraction-in-decimal.html
 1. https://www.youtube.com/watch?v=rNZQpaie7-o
 2. https://www.youtube.com/watch?v=fn5OlqQuOCk
 
-//Images used for the edit and delete icon in the UI
+// Images used for the edit and delete icon in the UI
 http://www.iconsdb.com/dark-gray-icons/delete-icon.html
 https://cdn1.iconfinder.com/data/icons/hawcons/32/698652-icon-136-dcument-edit-128.png

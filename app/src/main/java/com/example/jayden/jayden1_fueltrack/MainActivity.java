@@ -1,5 +1,6 @@
 package com.example.jayden.jayden1_fueltrack;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -11,27 +12,45 @@ import android.view.View;
 import android.widget.AbsListView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.Date;
 
 public class MainActivity extends AppCompatActivity {
+    // === Filename
+    private static final String FILENAME = "file.sav";
 
+    // === Initializing Variables
     private ListView logView;
     private FuelLogList entries = new FuelLogList();
+    private TextView total;
     private ArrayAdapter<FuelLogEntry> adapter;
     private int indexOf;
-    private TextView total;
 
+    // === Give this activity a variable
+    private Activity activity = this;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        loadFromFile();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // === Initialize view elements
         Button newButton = (Button) findViewById(R.id.buttonNew);
         logView = (ListView) findViewById(R.id.listView);
         total = (TextView) findViewById(R.id.textView2);
@@ -40,6 +59,7 @@ public class MainActivity extends AppCompatActivity {
         newButton.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View v) {
+                // When the "new" button is click create a new activity
                 Intent pop = new Intent(MainActivity.this, FuelTrackPopUp.class);
                 pop.putExtra("new", Boolean.TRUE);//Tell the window this is the result of the NEW button
 
@@ -61,6 +81,7 @@ public class MainActivity extends AppCompatActivity {
                 i = (FuelLogEntry)data.getSerializableExtra("entry");
                 entries.addLog(i);
                 adapter.notifyDataSetChanged();
+                saveInFile();
             }
         }
 
@@ -70,6 +91,7 @@ public class MainActivity extends AppCompatActivity {
                 i = (FuelLogEntry)data.getSerializableExtra("entry");
                 entries.editLog(data.getExtras().getInt("index"), i);
                 adapter.notifyDataSetChanged();
+                saveInFile();
             }
         }
 
@@ -80,18 +102,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onStart() {
         // TODO Auto-generated method stub
         super.onStart();
-
-        FuelLogEntry entry = new FuelLogEntry("Esso", "Normal", 10.02f, 100.500f, 1.20f);
-        FuelLogEntry entry1 = new FuelLogEntry("Esso", "Normal", 10.02f, 100.500f, 1.20f);
-        FuelLogEntry entry2 = new FuelLogEntry("Esso", "Normal", 10.02f, 100.500f, 1.20f);
-        FuelLogEntry entry3 = new FuelLogEntry("Esso", "Normal", 10.02f, 100.500f, 1.20f);
-        FuelLogEntry entry4 = new FuelLogEntry("Esso", "Normal", 10.02f, 100.500f, 1.20f);
-        entries.addLog(entry1);
-        entries.addLog(entry2);
-        entries.addLog(entry3);
-        entries.addLog(entry4);
-        entries.addLog(entry);
-
         setTotal();
 
         adapter = new ArrayAdapter<>(this, R.layout.list_item, entries.getList());
@@ -126,14 +136,16 @@ public class MainActivity extends AppCompatActivity {
             public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
                 //When context buttons are clicked run this.
 
-                if (item.getItemId()==R.id.id_delete){
+                if (item.getItemId() == R.id.id_delete) {
                     entries.deleteLog(entries.getLog(indexOf));
                     adapter.notifyDataSetChanged();
                     setTotal();
                     mode.finish();
+                    Toast.makeText(activity, "The log entry was deleted.", Toast.LENGTH_SHORT).show();
+                    saveInFile();
                 }
 
-                if (item.getItemId()==R.id.id_edit){
+                if (item.getItemId() == R.id.id_edit) {
                     //Open the pop up when editing
                     Intent pop = new Intent(MainActivity.this, FuelTrackPopUp.class);
                     pop.putExtra("new", Boolean.FALSE);
@@ -157,6 +169,41 @@ public class MainActivity extends AppCompatActivity {
                 indexOf = 0; //Reset index
             }
         });
+    }
+
+    public void loadFromFile() {
+        try {
+            FileInputStream fis = openFileInput(FILENAME);
+            BufferedReader in = new BufferedReader(new InputStreamReader(fis));
+            Gson gson = new Gson();
+
+            // Took from https://google-gson.googlecode.com/svn/trunk/gson/docs/javadocs/com/google/gson/Gson.html 01-19 2016
+            Type listType = new TypeToken<ArrayList<FuelLogEntry>>() {}.getType();
+            ArrayList<FuelLogEntry> i;
+            i = gson.fromJson(in, listType);
+            entries.setList(i);
+
+        } catch (FileNotFoundException e) {
+            // TODO Auto-generated catch block
+
+        }
+    }
+
+    public void saveInFile() {
+        try {
+            FileOutputStream fos = openFileOutput(FILENAME, 0);
+            BufferedWriter out = new BufferedWriter(new OutputStreamWriter(fos));
+            Gson gson = new Gson();
+            gson.toJson(entries.getList(), out);
+            out.flush();
+            fos.close();
+        } catch (FileNotFoundException e) {
+            // TODO Auto-generated catch block
+            throw new RuntimeException();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            throw new RuntimeException();
+        }
     }
 
     private void setTotal (){

@@ -11,15 +11,15 @@
         android:inputType="date"
         android:ems="10"
         android:id="@+id/date"
-        android:layout_marginTop="39dp"
         android:hint="Date (yyyy-mm-dd)"
         android:textColor="#FFFFFFFF"
         android:textColorHint="#d0d0d0"
-        android:layout_below="@+id/textView"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
         android:autoText="false"
-        android:hyphenationFrequency="normal" />
+        android:hyphenationFrequency="normal"
+        android:layout_below="@+id/textView"
+        android:layout_alignEnd="@+id/buttonSave"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentStart="true" />
 
     <EditText
         android:layout_width="wrap_content"
@@ -39,7 +39,7 @@
         android:layout_below="@+id/Station"
         android:layout_alignEnd="@+id/Station"
         android:layout_alignStart="@+id/Station"
-        android:hint="Fuel Grade"
+        android:hint="Fuel  Grade (eg. Regular)"
         android:textColor="#FFFFFFFF"
         android:textColorHint="#d0d0d0" />
 
@@ -51,7 +51,7 @@
         android:id="@+id/fuelAmount"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
-        android:hint="Fuel Amount"
+        android:hint="Fuel (L)"
         android:layout_alignEnd="@+id/date"
         android:layout_alignStart="@+id/date"
         android:layout_below="@+id/fuelGrade"
@@ -67,7 +67,7 @@
         android:id="@+id/fuelUnitPrice"
         android:layout_below="@+id/fuelAmount"
         android:layout_centerHorizontal="true"
-        android:hint="Fuel Unit Price"
+        android:hint="Fuel Unit Price (cents/L)"
         android:layout_alignEnd="@+id/date"
         android:layout_alignStart="@+id/date"
         android:textColor="#FFFFFFFF"
@@ -82,7 +82,7 @@
         android:id="@+id/odometer"
         android:layout_below="@+id/fuelUnitPrice"
         android:layout_alignStart="@+id/date"
-        android:hint="Odometer"
+        android:hint="Odometer(km)"
         android:layout_alignEnd="@+id/date"
         android:textColor="#FFFFFFFF"
         android:textColorHint="#d0d0d0" />
@@ -95,8 +95,8 @@
         android:id="@+id/textView"
         android:textColor="#FFFFFFFF"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="57dp" />
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true" />
 
     <Button
         style="?android:attr/buttonStyleSmall"
@@ -104,7 +104,7 @@
         android:layout_height="wrap_content"
         android:text="Save"
         android:id="@+id/buttonSave"
-        android:layout_below="@+id/odometer"
+        android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true" />
 
     <Button
@@ -113,7 +113,7 @@
         android:layout_height="wrap_content"
         android:text="Cancel"
         android:id="@+id/buttonCancel"
-        android:layout_alignTop="@+id/buttonSave"
+        android:layout_alignParentBottom="true"
         android:layout_toStartOf="@+id/buttonSave" />
 
 </RelativeLayout>
